@@ -1,7 +1,7 @@
 import numpy as np
 from flask import Flask, jsonify
 from flask import Response,json
-from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 from flask import Flask, render_template
 ##if using sql database##
 # import sqlalchemy
@@ -22,7 +22,9 @@ dbname = "Soccer_db"
 # Flask Setup
 #################################################
 app = Flask(__name__)
-
+username = "testdb1"
+password = "testdb1"
+dbname = "testdb"
 #################################################
 # Flask Routes
 #################################################
@@ -44,8 +46,10 @@ def scatterData():
     #create connection
     import time
     start = time.time()
-    client = MongoClient(f"mongodb+srv://Quentin:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
-    soccer_db = client.get_database('Soccer_db')
+    
+    client = MongoClient(f"mongodb+srv://{username}:{password}@testdb.gkuca.mongodb.net/{dbname}?retryWrites=true&w=majority")
+    soccer_db = client.get_database('testdb')
+
     team_stats_col = soccer_db.team_stats.find({},{'_id': False})
     data_scatter = []
     for doc in team_stats_col:
@@ -60,8 +64,9 @@ def correlationData():
     #create connection
     import time
     start = time.time()
-    client = MongoClient(f"mongodb+srv://Quentin:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
-    soccer_db = client.get_database('Soccer_db')
+    client = MongoClient(f"mongodb+srv://{username}:{password}@testdb.gkuca.mongodb.net/{dbname}?retryWrites=true&w=majority")
+    soccer_db = client.get_database('testdb')
+
     corr_col = soccer_db.correlation.find({},{'_id': False})
     data_corr = []
     for doc in corr_col:
@@ -76,8 +81,8 @@ def comparisonData():
     #create connection
     import time
     start = time.time()
-    client = MongoClient(f"mongodb+srv://Louis:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
-    soccer_db = client.get_database('Soccer_db')
+    client = MongoClient(f"mongodb+srv://{username}:{password}@testdb.gkuca.mongodb.net/{dbname}?retryWrites=true&w=majority")
+    soccer_db = client.get_database('testdb')
     table = soccer_db.summary_financials.find({},{'_id': False})
     data = []
     for doc in table:
@@ -92,8 +97,8 @@ def heroData():
     #create connection
     import time
     start = time.time()
-    client = MongoClient(f"mongodb+srv://Louis:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
-    soccer_db = client.get_database('Soccer_db')
+    client = MongoClient(f"mongodb+srv://{username}:{password}@testdb.gkuca.mongodb.net/{dbname}?retryWrites=true&w=majority")
+    soccer_db = client.get_database('testdb')
     table = soccer_db.transfer_summary.find({},{'_id': False})
     data = []
     for doc in table:
@@ -108,8 +113,8 @@ def top4_financialData():
     #create connection
     import time
     start = time.time()
-    client = MongoClient(f"mongodb+srv://Louis:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
-    soccer_db = client.get_database('Soccer_db')
+    client = MongoClient(f"mongodb+srv://{username}:{password}@testdb.gkuca.mongodb.net/{dbname}?retryWrites=true&w=majority")
+    soccer_db = client.get_database('testdb')
     table = soccer_db.top4_financials.find({},{'_id': False})
     data = []
     for doc in table:
