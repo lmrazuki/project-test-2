@@ -4,7 +4,7 @@ from flask import Response,json
 from flask import Flask, render_template, request, redirect
 
 from pymongo import MongoClient
-from config import mongo
+# from config import mongo
 import scrape_ranking
 
 #################################################
