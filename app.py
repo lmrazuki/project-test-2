@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect
 
 from pymongo import MongoClient
 # from config import mongo
-import scrape_ranking
+# import scrape_ranking
 
 #################################################
 # Database Setup
