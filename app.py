@@ -12,7 +12,7 @@ import scrape_ranking
 #################################################
 mongo = "MonashBootcamp"
 dbname = "Soccer_db"
-client = MongoClient(f"mongodb+srv://Quentin:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
+client = MongoClient(f"mongodb+srv://Louis:{mongo}@cluster0.ddqv6.mongodb.net/{dbname}?retryWrites=true&w=majority")
 soccer_db = client.get_database('Soccer_db')
 #################################################
 # Flask Setup
