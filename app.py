@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect
 
 from pymongo import MongoClient
 # from config import mongo
-import scrape_ranking
+# import scrape_ranking
 
 #################################################
 # Database Setup
@@ -26,15 +26,15 @@ app = Flask(__name__)
 @app.route("/",methods=['GET', 'POST'])
 def home():
     
-    if request.method == 'POST':
-        select = request.form.value('league')
-    else :
-        select = "England"
-    # Run the scrape function
-    ranking_data = scrape_ranking.scrape(select)
-    # for record in ranking_data:
-    #     print(record["Ranking"])
-    return render_template("index.html", ranking=ranking_data)
+#     if request.method == 'POST':
+#         select = request.form.value('league')
+#     else :
+#         select = "England"
+#     # Run the scrape function
+#     ranking_data = scrape_ranking.scrape(select)
+#     # for record in ranking_data:
+#     #     print(record["Ranking"])
+    return render_template("index.html")
 
 @app.route("/financial")
 def financial():
