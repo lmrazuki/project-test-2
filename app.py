@@ -8,7 +8,7 @@ from pymongo import MongoClient
 # import scrape_ranking
 
 mongo = "MonashBootcamp"
-=======
+
 # from config import mongo
 # import scrape_ranking
 from selenium import webdriver
