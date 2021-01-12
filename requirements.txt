@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 certifi==2020.12.5
 click==7.1.2
 dnspython==2.1.0
@@ -61,4 +61,4 @@ zope.hookable==5.0.1
 zope.interface==5.2.0
 zope.lifecycleevent==4.3
 zope.proxy==4.3.5
->>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
+
