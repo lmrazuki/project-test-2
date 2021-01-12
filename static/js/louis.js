@@ -4,6 +4,12 @@ function init(country, year, measure) {
   buildChart(country, year, measure);
 }
 
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
 function buildHero(country) {
   // Load in the data
   d3.json("/financials/hero/data").then((data, error) => {
@@ -19,17 +25,56 @@ function buildHero(country) {
     data.forEach((d) => {
       d.Transfer_spend = +d.Transfer_Spend;
       year.push(d.year);
-      transfer.push(d.Transfer_Spend);
+      transfer.push(d.Transfer_Spend * 1000000);
     });
     // Set up parameters for Plotly
     var trace = {
       x: year,
       y: transfer,
-      type: "bar",
+      type: "scatter",
+      line: { shape: "spline" },
+      fill: "tonexty",
     };
     var data = [trace];
     var layout = {
-      title: "Transfer spend over time",
+      margin: {
+        r: 50,
+        b: 50,
+        pad: 4,
+      },
+
+      title: {
+        text: "Transfer spend over time",
+        font: {
+          family: "Helvetica Neue",
+          size: 26,
+          color: "whitesmoke",
+          weight: "bold",
+        },
+      },
+      xaxis: {
+        tickfont: {
+          family: "Helvetica Neue",
+          size: 14,
+          color: "white",
+        },
+      },
+      yaxis: {
+        title: "Annual Transfer Spend",
+        titlefont: {
+          family: "Helvetica Neue",
+          size: 20,
+          color: "white",
+        },
+        tickfont: {
+          family: "Helvetica Neue",
+          size: 14,
+          color: "white",
+        },
+      },
+
+      plot_bgcolor: "transparent",
+      paper_bgcolor: "transparent",
     };
     // Build plot for Hero graph
     Plotly.newPlot("plot", data, layout);
@@ -40,7 +85,9 @@ function buildHero(country) {
       .append("p")
       .attr("id", "transfer_copy")
       .text(
-        `In ${country}, from 1990 to 2020, we there has been an increase of $${transfer_change}`
+        `Examining ${country} a little more closely, from 1990 to 2020, we there has been an increase of $${numberWithCommas(
+          Math.round(transfer_change)
+        )}`
       );
   });
 }
@@ -64,7 +111,7 @@ function buildChart(country, year, measure) {
       var league_wages = 0;
       var league_player_value = 0;
       data.forEach((d) => {
-        league_transfer_spend = d.Transfers;
+        league_transfer_spend = d.Transfers * 1000000;
         league_wages = d.Wages;
         league_player_value = d.Value;
       });
@@ -90,10 +137,40 @@ function buildChart(country, year, measure) {
       x: labels,
       y: values,
       type: "bar",
+      marker: {
+        color: "tonexty",
+        line: {
+          color: "rgb(8,48,107)",
+          width: 1.5,
+        },
+      },
     };
     var data = [trace];
     var layout = {
-      title: "Comparison",
+      yaxis: {
+        tickfont: {
+          family: "Helvetica Neue",
+          size: 14,
+          color: "white",
+        },
+      },
+      xaxis: {
+        tickfont: {
+          family: "Helvetica Neue",
+          size: 14,
+          color: "white",
+        },
+      },
+      plot_bgcolor: "transparent",
+      paper_bgcolor: "transparent",
+      margin: {
+        t: 50,
+        l: 50,
+        r: 50,
+        b: 50,
+        pad: 4,
+      },
+      height: 600,
     };
     d3.select("#comparison").append("div").attr("id", "comparison_chart");
 
@@ -127,12 +204,17 @@ function buildTable(country, year, measure) {
       wages.push(d.Player_Wages);
       player_value.push(d.Average_Player_Value);
     });
+    transfer_spending = [];
+    transfer_spend.forEach((d) => {
+      transfer_spending.push(Math.round(d * 1000000));
+    });
+    console.log(transfer_spending);
 
     if (measure == "Wages") {
       financials = wages;
       title = "Avg. Player Wages";
     } else if (measure == "Transfers") {
-      financials = transfer_spend;
+      financials = transfer_spending;
       title = "Average Transfer Spend";
     } else if (measure == "Value") {
       financials = player_value;
@@ -142,7 +224,7 @@ function buildTable(country, year, measure) {
     d3.json(`/financials/comparison/data`).then((data2, error) => {
       data2 = data2.filter((d) => d.League == country);
       data2 = data2.filter((d) => d.Year == year);
-      data2 = data2.filter((d) => d.Group == "Top 4");
+      data2 = data2.filter((d) => d.Group == "League");
 
       league_transfer_spend = [];
       league_wages = [];
@@ -156,7 +238,7 @@ function buildTable(country, year, measure) {
       if (measure == "Wages") {
         averaged = league_wages;
       } else if (measure == "Transfers") {
-        averaged = league_transfer_spend;
+        averaged = league_transfer_spend * 1000000;
       } else if (measure == "Value") {
         averaged = league_player_value;
       }
@@ -164,7 +246,9 @@ function buildTable(country, year, measure) {
         .append("p")
         .attr("id", "average_copy")
         .text(
-          `The league average for ${title} in ${country} in ${year} was €${averaged}.`
+          `In ${country} in ${year}, ${title} was €${numberWithCommas(
+            Math.round(averaged)
+          )}.`
         );
       difference = [];
 
@@ -172,50 +256,42 @@ function buildTable(country, year, measure) {
         wages.forEach((d) => {
           var subtract = d - averaged;
           subtract = +subtract;
-          difference.push(subtract);
+          difference.push(Math.round(subtract));
         });
       } else if (measure == "Transfers") {
-        transfer_spend.forEach((d) => {
+        transfer_spending.forEach((d) => {
           var subtract = d - averaged;
           subtract = +subtract;
-          difference.push(subtract);
+          difference.push(Math.round(subtract));
         });
       } else if (measure == "Value") {
         player_value.forEach((d) => {
           var subtract = d - averaged;
           subtract = +subtract;
-          difference.push(subtract);
+          difference.push(Math.round(subtract));
         });
       }
 
-      var values = [position, teams, financials, difference];
-
-      var data = [
-        {
-          type: "table",
-          header: {
-            values: [
-              ["<b>Position</b>"],
-              ["<b>Team</b>"],
-              [`<b>${title}</b>`],
-              [`<b>vs. League average </b>`],
-            ],
-            align: ["center"],
-            line: { width: 1, color: "#506784" },
-            fill: { color: "#119DFF" },
-            font: { family: "Arial", size: 12, color: "white" },
-          },
-          cells: {
-            values: values,
-            align: ["center"],
-            line: { color: "#506784", width: 1 },
-            fill: { color: ["#d3d3d3", "white"] },
-            font: { family: "Arial", size: 11, color: ["#506784"] },
-          },
-        },
+      var financial = financials.map(numberWithCommas);
+      var differences = difference.map(numberWithCommas);
+      values = [
+        [position[0], teams[0], financial[0], differences[0]],
+        [position[1], teams[1], financial[1], differences[1]],
+        [position[2], teams[2], financial[2], differences[2]],
+        [position[3], teams[3], financial[3], differences[3]],
       ];
+      d3.select("#summary-table").append("tbody").attr("id", "table_body");
 
-      Plotly.newPlot("table", data);
+      var tbody = d3.select("tbody");
+
+      // Creates the table upon page being loaded.
+      values.forEach((d) => {
+        var row = tbody.append("tr").attr("class", "table-light");
+        Object.entries(d).forEach(([key, value]) => {
+          var cell = row.append("td");
+          cell.text(value);
+        });
+      });
     });
   });
 }
@@ -230,6 +306,7 @@ year_selected.on("change", updateData);
 function updateData() {
   d3.select("plot").remove();
   d3.select("#transfer_copy").remove();
+  d3.select("#table_body").remove();
   d3.select("#average_copy").remove();
   d3.select("#comparison_chart").remove();
   var value = d3.select("#league").node().value;

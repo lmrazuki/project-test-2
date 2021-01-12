@@ -1,8 +1,56 @@
-.iframeContainer {
-  padding: 20px;
-  border: 1px solid #e3e3e3;
+
+table {
+  padding-top: 2px;
+  margin-top: 4px;
 }
 
+tbody {
+  color: whitesmoke;
+  padding-top: 2px;
+  margin-top: 2px;
+  /* text-align: left; */
+}
+
+select{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+  margin-bottom: 2px;
+  padding-bottom: 1px;
+  display: block;
+  /* background-color: transparent; */
+  border: none;
+  font-size: large;
+  background-color:  rgba(35, 47, 52);
+  color: whitesmoke;
+  outline: none;
+}
+
+.well{
+  margin-bottom: 6px;
+  padding-bottom: 2px;
+}
+h3{
+  color: whitesmoke;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+
+h3:first-letter {
+  text-transform:capitalize;
+}
+h5{
+  color: whitesmoke;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: auto;
+  padding-bottom: auto;
+}
+#hr {
+  background-color: whitesmoke !important;
+}
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
 html {
   position: relative;
@@ -48,54 +96,24 @@ a:hover{
   background-image: url( 
 "data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"); 
 }
-/* body */
-body {
+
+.container-xxl {
   /* Padding bottom by footer height */
   padding-bottom: 80px;
   text-align: center;
   background-color:whitesmoke;
-}
-#main{
   border-radius: 25px;
-  background-color: rgba(35, 47, 52);
+  background-color: rgba(35, 47, 52); 
   margin-top: 2%;
-  margin-left: 1%;
-  margin-bottom: 2%;
-  margin-right: 1%;
+  margin-left: 4%;
+  margin-right: 4%;
 }
-svg{
-  background-color: none;
-  border-color:none;
+
+.containerBody {
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
-.article{
-  margin-top: 1%;
-}
-select{
-  background-color: transparent;
-  border: none;
-  margin-top: 1%;
-  font-size: large;
-  background-color:transparent;
-  color: whitesmoke;
-}
-h5{
-  text-align: left;
-}
-button{
-  padding-top:0%;
-  padding-bottom:0%;
-}
-#home{
-  color: whitesmoke;
-  text-align: left;
-  font-size: smaller;
-}
-#pages{
-  color: #f5f5f5;
-  font-size: smaller;
-  text-align: left;
-  border-radius: 25px;
-}
+
 #footer {
   position: absolute;
   bottom: 0;
@@ -111,35 +129,17 @@ button{
   margin: 0;
   font-size: 16px;
 }
-.legendScatter text {
-  transition: fill 0.3s ease-out;
-  opacity: 0.7;
-}
-.legendScatter text:hover {
-  opacity: 1;
-  cursor: pointer;
-}
-.legendMatrix rect:hover {
-  cursor: pointer;
-}
-#analysis h5{
-  margin-top: 25%;
+
+#maptop4 {
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  width: 1000px;
 }
 
-#title1 {
-  background-color: whitesmoke;
-  background-position: center;
-  text-align: center;
-  color:rgba(35, 47, 52);
-  border-radius: 25px;
-}
-#title2 {
-  background-color: whitesmoke;
-  background-position: center;
-  text-align: center;
-  color:rgba(35, 47, 52);
-  border-radius: 25px;
-}
-#league.logo{
-  object-position: left center;
+#maplast4 {
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  width: 1000px;
 }
