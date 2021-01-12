@@ -4,9 +4,27 @@ from flask import Response,json
 from flask import Flask, render_template, request, redirect
 
 from pymongo import MongoClient
+<<<<<<< HEAD
 # import scrape_ranking
 
 mongo = "MonashBootcamp"
+=======
+# from config import mongo
+# import scrape_ranking
+from selenium import webdriver
+import time
+from collections import defaultdict
+import pandas as pd
+
+GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google_chrome'
+CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = GOOGLE_CHROME_BIN
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+>>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
 
 #################################################
 # Database Setup
@@ -23,7 +41,57 @@ app = Flask(__name__)
 # Flask Routes
 #################################################
 
+<<<<<<< HEAD
 @app.route("/",methods=['GET',"POST"])
+=======
+def scrape(league):
+    driver = webdriver.Chrome('/usr/local/bin/chromedriver')
+    if league == "England":
+        url = "https://www.flashscore.com.au/football/england/epl/standings/"
+    if league == "Spain":
+        url = "https://www.flashscore.com.au/football/spain/laliga/standings/"
+    if league == "Italy":
+        url = "https://www.flashscore.com.au/football/italy/serie-a/standings/"
+    #urls = [url_eng,url_es,url_it]
+
+    table = defaultdict(list)
+    #for url in urls:
+    driver.get(url)
+    time.sleep(1)
+
+    col1 = driver.find_elements_by_xpath('//a[@class="rowCellParticipantName___38vskiN"]')
+    col2 = driver.find_elements_by_xpath('//span[@class="  rowCell____vgDgoa cell___4WLG6Yd "]')
+    
+    for i in range(len(col1)):
+        table["Ranking"].append(i+1)
+        table["Team"].append(col1[i].text)
+        if league == "England":
+            table["League"].append('England')
+        if league == "Spain":
+            table["League"].append('Spain')
+        if league == "Italy":
+            table["League"].append('Italy')
+    count = 0
+    for i in range(len(col2)):
+        if count == 0 :
+            table["MP"].append(col2[i].text)
+        if count == 1:
+            table["W"].append(col2[i].text)
+        if count == 2:
+            table["D"].append(col2[i].text)
+        if count == 3:
+            table["L"].append(col2[i].text)
+        if count == 4:
+            table["Pts"].append(col2[i].text)
+            count = -1
+        count+=1
+    table = dict(table)
+    driver.close()
+    # Return results
+    return table
+
+@app.route("/",methods=['GET', 'POST'])
+>>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
 def home():
     select = "England"
     if request.method == 'POST':
@@ -49,12 +117,23 @@ def home():
 def scrape():
     select = "England"
     if request.method == 'POST':
+<<<<<<< HEAD
         select = request.form.get('league')
         return redirect(url_for('home',select=select))
         
     # Collect the data
     ranking_data = scrape_ranking.scrape(select)
     return (jsonify(ranking_data))
+=======
+        select = request.form.value('league')
+    else :
+        select = "England"
+    # Run the scrape function
+    ranking_data = scrape(select)
+    # for record in ranking_data:
+    #     print(record["Ranking"])
+    return render_template("index.html", ranking=ranking_data)
+>>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
 
 @app.route("/financial")
 def financial():
