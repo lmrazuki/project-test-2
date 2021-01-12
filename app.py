@@ -4,7 +4,7 @@ from flask import Response,json
 from flask import Flask, render_template, request, redirect
 
 from pymongo import MongoClient
-<<<<<<< HEAD
+
 # import scrape_ranking
 
 mongo = "MonashBootcamp"
@@ -16,15 +16,7 @@ import time
 from collections import defaultdict
 import pandas as pd
 
-GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google_chrome'
-CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = GOOGLE_CHROME_BIN
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('--no-sandbox')
-driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
->>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
 
 #################################################
 # Database Setup
@@ -41,9 +33,9 @@ app = Flask(__name__)
 # Flask Routes
 #################################################
 
-<<<<<<< HEAD
+
 @app.route("/",methods=['GET',"POST"])
-=======
+
 def scrape(league):
     driver = webdriver.Chrome('/usr/local/bin/chromedriver')
     if league == "England":
@@ -91,7 +83,7 @@ def scrape(league):
     return table
 
 @app.route("/",methods=['GET', 'POST'])
->>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
+
 def home():
     select = "England"
     if request.method == 'POST':
@@ -117,14 +109,14 @@ def home():
 def scrape():
     select = "England"
     if request.method == 'POST':
-<<<<<<< HEAD
+
         select = request.form.get('league')
         return redirect(url_for('home',select=select))
         
     # Collect the data
     ranking_data = scrape_ranking.scrape(select)
     return (jsonify(ranking_data))
-=======
+
         select = request.form.value('league')
     else :
         select = "England"
@@ -133,7 +125,7 @@ def scrape():
     # for record in ranking_data:
     #     print(record["Ranking"])
     return render_template("index.html", ranking=ranking_data)
->>>>>>> 53d325092ec975ec1bca61f27b9797b56b074d49
+
 
 @app.route("/financial")
 def financial():
