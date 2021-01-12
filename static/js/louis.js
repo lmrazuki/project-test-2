@@ -147,7 +147,23 @@ function buildChart(country, year, measure) {
     };
     var data = [trace];
     var layout = {
+      title: {
+        text: "Top 4 vs. League vs. Bottom 4",
+        font: {
+          family: "Helvetica Neue",
+          size: 26,
+          color: "whitesmoke",
+          weight: "bold",
+        },
+      },
+      
       yaxis: {
+        title: "Euros (€)",
+        titlefont: {
+          family: "Helvetica Neue",
+          size: 20,
+          color: "white",
+        },
         tickfont: {
           family: "Helvetica Neue",
           size: 14,
